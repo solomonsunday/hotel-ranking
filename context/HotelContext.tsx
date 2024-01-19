@@ -8,35 +8,27 @@ import {
   Dispatch,
 } from "react";
 
-import { ErrorResponse, IHotel, IHotelChain } from "@/utils/interface";
+import { ErrorResponse, IHotel } from "@/utils/interface";
 import { HOTEL_KEY } from "@/utils/constants";
 
 interface HotelContextProps {
   children: ReactNode;
 }
-
 interface HotelContextType {
   hotelData: IHotel[];
-  hotelChains: IHotelChain[];
   getHotels: () => void;
   createHotel: (hotel: IHotel) => void;
   updateHotel: (hotel: IHotel) => void;
   deleteHotel: (hotelId: string) => void;
-  addHotelChain: (chain: IHotelChain) => void;
-  editHotelChain: (chain: IHotelChain) => void;
-  deleteHotelChain: (chainId: string) => void;
   getHotel: (id: string) => IHotel | null;
   setSelectedHotel: Dispatch<SetStateAction<IHotel | null>>;
   selectedHotel: IHotel | null;
-
-  //   searchHotels: (hotel:IHotel) => void
 }
 
 const HotelContext = createContext<HotelContextType | undefined>(undefined);
 
 export const HotelProvider: React.FC<HotelContextProps> = ({ children }) => {
   const [hotelData, setHotelData] = useState<IHotel[]>([]);
-  const [hotelChains, setHotelChains] = useState<IHotelChain[]>([]);
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState<IHotel | null>(null);
@@ -85,13 +77,6 @@ export const HotelProvider: React.FC<HotelContextProps> = ({ children }) => {
     return foundData;
   };
 
-  //   const editHotel = (updatedHotel: IHotel) => {
-  //     setHotelData((prevHotels) =>
-  //       prevHotels.map((hotel) =>
-  //         hotel.id === updatedHotel.id ? updatedHotel : hotel
-  //       )
-  //     );
-  //   };
   const updateHotel = (hotel: IHotel) => {
     const storage = localStorage.getItem(HOTEL_KEY);
     const data =
@@ -124,43 +109,12 @@ export const HotelProvider: React.FC<HotelContextProps> = ({ children }) => {
     getHotels();
   };
 
-  const searchHotels = (value: string): IHotel[] => {
-    const storage = localStorage.getItem(HOTEL_KEY);
-    const data =
-      storage && storage.length ? (JSON.parse(storage) as IHotel[]) : [];
-
-    return data.filter((hotel) =>
-      hotel.name.toLowerCase().includes(value.toLowerCase())
-    );
-  };
-
-  const addHotelChain = (chain: IHotelChain) => {
-    setHotelChains((prevChains) => [...prevChains, chain]);
-  };
-
-  const editHotelChain = (updatedChain: IHotelChain) => {
-    setHotelChains((prevChains) =>
-      prevChains.map((chain) =>
-        chain.id === updatedChain.id ? updatedChain : chain
-      )
-    );
-  };
-  const deleteHotelChain = (id: string) => {
-    setHotelChains((prevChains) =>
-      prevChains.filter((chain) => chain.id !== id)
-    );
-  };
-
   const contextValue: HotelContextType = {
     hotelData,
-    hotelChains,
     createHotel,
     getHotels,
     updateHotel,
     deleteHotel,
-    addHotelChain,
-    editHotelChain,
-    deleteHotelChain,
     getHotel,
     setSelectedHotel,
     selectedHotel,

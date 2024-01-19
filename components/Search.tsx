@@ -16,7 +16,7 @@ const SearchBar = ({ onSearch }: IKeywords) => {
         <input
           type="text"
           value={searchQuery}
-          className="px-2 py-2 text-xs bg-transparent focus:outline-none placeholder:px-1 placeholder:text-xs"
+          className="w-full px-2 py-2 text-xs bg-transparent focus:outline-none placeholder:px-1 placeholder:text-xs"
           placeholder={"Find a hotel"}
           key="search-bar"
           onChange={handleInputChange}

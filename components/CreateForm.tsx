@@ -1,13 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHotelContext } from "../context/HotelContext";
 import { uuid } from "uuidv4";
 import { useForm } from "react-hook-form";
-import { IHotel } from "@/utils/interface";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+import { useHotelChainContext } from "@/context/HotelChainContext";
 
 const CreateForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const { createHotel } = useHotelContext();
@@ -20,10 +20,16 @@ const CreateForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
   } = useForm<any>({ mode: "onChange" });
 
   const [address, setAddress] = useState("");
+
   const [coordinates, setCoordinates] = useState<google.maps.LatLngLiteral>({
     lat: 0,
     lng: 0,
   });
+  const { hotelChains, getHotelChains } = useHotelChainContext();
+
+  useEffect(() => {
+    getHotelChains();
+  }, []);
 
   const handleSelectAddress = async (address: string) => {
     const results = await geocodeByAddress(address);
@@ -184,17 +190,26 @@ const CreateForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
             ChainID
           </label>
           <div>
-            <input
+            <select
+              className="w-full p-2 mt-1 border border-gray-300 rounded"
               {...register("chainId", {
-                required: "ChainId is required",
+                required: "chainId is required",
                 minLength: 1,
-                maxLength: 5,
                 max: 5,
               })}
-              type="number"
-              name="chainId"
-              className="w-full p-2 mt-1 border border-gray-300 rounded"
-            />
+            >
+              <option value="" className="text-sm">
+                Select Chain Id
+              </option>
+              {hotelChains &&
+                hotelChains.map((item) => {
+                  return (
+                    <option value={item.name} key={item.id}>
+                      {item.name}
+                    </option>
+                  );
+                })}
+            </select>
           </div>
           {errors.name?.type === "required" && (
             <p className="mt-1 text-xs italic text-red-600">

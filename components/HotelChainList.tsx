@@ -1,9 +1,15 @@
 "use client";
-import React from "react";
-import { useHotelContext } from "../context/HotelContext";
+import React, { useEffect } from "react";
+import { useHotelChainContext } from "@/context/HotelChainContext";
 
 const HotelChainList: React.FC = () => {
-  const { hotelChains, deleteHotelChain } = useHotelContext();
+  const { hotelChains, deleteHotelChain, getHotelChains } =
+    useHotelChainContext();
+  console.log(hotelChains, "hotelChain");
+
+  useEffect(() => {
+    getHotelChains();
+  }, []);
 
   return (
     <div className="max-w-2xl mx-auto mt-8">

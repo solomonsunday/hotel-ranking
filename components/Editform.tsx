@@ -1,5 +1,6 @@
+import { useHotelChainContext } from "@/context/HotelChainContext";
 import { useHotelContext } from "@/context/HotelContext";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -17,10 +18,15 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const { selectedHotel, updateHotel, getHotels } = useHotelContext();
 
   const [address, setAddress] = useState("");
+  const { hotelChains, getHotelChains } = useHotelChainContext();
   const [coordinates, setCoordinates] = useState<google.maps.LatLngLiteral>({
     lat: 0,
     lng: 0,
   });
+
+  useEffect(() => {
+    getHotelChains();
+  }, []);
 
   const handleSelectAddress = async (address: string) => {
     const results = await geocodeByAddress(address);
@@ -194,7 +200,24 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
             ChainID
           </label>
           <div className="flex items-center ">
-            <input
+            <select
+              className="w-full p-2 mt-1 border border-gray-300 rounded"
+              {...register("chainId", {
+                required: "chainId is required",
+                minLength: 1,
+                max: 5,
+              })}
+            >
+              {hotelChains &&
+                hotelChains.map((item) => {
+                  return (
+                    <option value={item.name} key={item.id}>
+                      {item.name}
+                    </option>
+                  );
+                })}
+            </select>
+            {/* <input
               {...register("chainId", {
                 required: "ChainID is required",
                 minLength: 1,
@@ -206,7 +229,7 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
               autoComplete="false"
               className="block w-full p-3 mt-1 placeholder-gray-400 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-blue-300 disabled:bg-gray-200 disabled:border-slate-300 disabled:shadow-none focus:invalid:border-red-500 focus:invalid:bg-red-50 focus:invalid:placeholder-red-700 "
               placeholder="ChainID..."
-            />
+            /> */}
           </div>
 
           {errors.chainId?.type === "required" && (

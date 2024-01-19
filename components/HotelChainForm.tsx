@@ -1,40 +1,72 @@
 "use client";
 import React, { useState } from "react";
-import { useHotelContext } from "../context/HotelContext";
 import { IHotelChain } from "@/utils/interface";
+import { useHotelChainContext } from "@/context/HotelChainContext";
+import { useForm } from "react-hook-form";
+import { uuid } from "uuidv4";
 
 const HotelChainForm: React.FC = () => {
-  const { addHotelChain } = useHotelContext();
-  const [newChain, setNewChain] = useState<IHotelChain>({ id: "", name: "" });
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    reset,
+    formState: { errors, isDirty, isValid },
+  } = useForm<any>({ mode: "onChange" });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewChain({ ...newChain, [e.target.name]: e.target.value });
-  };
+  const { addHotelChain } = useHotelChainContext();
+  const [newChain, setNewChain] = useState<IHotelChain>({ id: "", name: "" });
 
   const handleAddChain = () => {
     addHotelChain(newChain);
     setNewChain({ id: "", name: "" });
   };
 
+  const onSubmit = (data: any) => {
+    data.id = uuid();
+    addHotelChain(data);
+    reset();
+    // onCloseModal();
+  };
+
   return (
     <div className="max-w-2xl mx-auto mt-8">
       <h2 className="mb-4 text-2xl font-bold">Add Hotel Chain</h2>
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label className="block text-sm font-medium text-gray-600">
             Chain Name
           </label>
           <input
-            type="text"
+            {...register("name", {
+              required: "Chain Name is required",
+              minLength: 1,
+              maxLength: 5,
+              min: 1,
+              max: 5,
+            })}
+            type="number"
             name="name"
-            value={newChain.name}
-            onChange={handleInputChange}
             className="w-full p-2 mt-1 border border-gray-300 rounded"
           />
         </div>
+        {errors.name?.type === "required" && (
+          <p className="mt-1 text-xs italic text-red-600">
+            {errors.name?.message?.toString()}
+          </p>
+        )}
+        {errors.name?.type === "maxLength" && (
+          <p className="mt-1 text-xs italic text-red-600">
+            Minimum input length of 5
+          </p>
+        )}
+        {errors.name?.type === "minLength" && (
+          <p className="mt-1 text-xs italic text-red-600">
+            Minimum input length of 1
+          </p>
+        )}
         <button
-          type="button"
-          onClick={handleAddChain}
+          type="submit"
           className="px-4 py-2 text-white bg-blue-500 rounded"
         >
           Add Hotel Chain

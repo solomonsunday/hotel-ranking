@@ -6,6 +6,7 @@ import CreateModal from "./modal/CreateModal";
 import { IHotel } from "@/utils/interface";
 import SearchBar from "./Search";
 import FilterDropdown from "./FilteredDropDown";
+import Link from "next/link";
 
 const HotelList = ({
   onEdit,
@@ -96,11 +97,17 @@ const HotelList = ({
           className="p-2 text-sm text-white rounded-lg cursor-pointer bg-slate-600 hover:bg-slate-400"
           onClick={() => setOpenCreate(true)}
         >
-          {" "}
           Create
         </div>
+        <Link href="/chains">
+          <div
+            className="w-auto p-2 text-sm text-black bg-transparent rounded-lg cursor-pointer"
+            onClick={() => setOpenCreate(true)}
+          >
+            Chains
+          </div>
+        </Link>
       </div>
-      {/* </div> */}
       <ul className="divide-y divide-gray-300">
         {filteredHotelData.map((hotel) => (
           <li
@@ -109,20 +116,16 @@ const HotelList = ({
           >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold">{hotel.name}</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="text-lg font-semibold capitalize">
+                  {hotel.name}
+                </h3>
+                <p className="text-sm text-gray-600 capitalize">
                   {hotel.city}, {hotel.country} , {hotel.chainId}
                   <span> Star</span>
                 </p>
               </div>
-              {/* <button
-                className="px-2 py-1 text-white bg-red-500 rounded"
-                onClick={() => deleteHotel(hotel.id)}
-              >
-                Delete
-              </button> */}
+
               <div>
-                {/* <EllipsisHorizontalIcon width={20} /> */}
                 <div className="">
                   <Menu as="div" className="relative inline-block text-center">
                     <div>

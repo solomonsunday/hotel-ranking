@@ -1,16 +1,16 @@
 import HotelChainForm from "@/components/HotelChainForm";
 import HotelChainList from "@/components/HotelChainList";
-import { HotelProvider } from "@/context/HotelContext";
+import { HotelChainProvider } from "@/context/HotelChainContext";
 import React from "react";
 
 const Chains: React.FC = () => {
   return (
-    <HotelProvider>
+    <HotelChainProvider>
       <div>
         <HotelChainList />
         <HotelChainForm />
       </div>
-    </HotelProvider>
+    </HotelChainProvider>
   );
 };
 
