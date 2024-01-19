@@ -13,6 +13,7 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
 
   const onSubmit = (data: any) => {
     data.id = selectedHotel?.id;
+    data.chainId = +data.chainId;
     updateHotel(data);
     getHotels();
     onCloseModal();

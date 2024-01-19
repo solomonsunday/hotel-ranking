@@ -1,39 +1,24 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 
 const FilterDropdown = ({
-  options,
   onFilterChange,
 }: {
-  options: number[];
-  onFilterChange: () => void;
+  //   options: number[];
+  onFilterChange: (value: number) => void;
 }) => {
-  const [selectedOption, setSelectedOption] = useState("");
-
-  const handleFilterChange = (event: any) => {
-    const selectedValue = event.target.value;
-    setSelectedOption(selectedValue);
-    onFilterChange(selectedValue);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const options = [0, 1, 2, 3, 4, 5];
+  const handleFilterChange = (chainId: number) => {
+    console.log(chainId, "chainID");
+    setSelectedOption(chainId);
+    onFilterChange(chainId);
   };
 
   return (
     <div>
-      <label htmlFor="filterDropdown">Filter by:</label>
-      <select
-        id="filterDropdown"
-        value={selectedOption}
-        onChange={handleFilterChange}
-      >
-        <option value="">All</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
       <div className="flex flex-col items-center justify-center text-sm font-medium">
         <Menu as="div" className="relative inline-block text-center">
-          {/* <p>ChianID</p> */}
           <div className="text-center">
             <Menu.Button className="inline-flex justify-center w-full px-3 py-2 text-sm font-medium text-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <svg
@@ -62,63 +47,24 @@ const FilterDropdown = ({
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items className="absolute right-0 z-50 mt-0 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div className="px-1 py-1 text-center">
-                <Menu.Item>
-                  {({ active }) => (
-                    <button
-                      className={`${
-                        active ? "text-gray-200" : "text-black-900"
-                      } group  w-full items-center rounded-md px-2 py-2 text-sm text-black`}
-                    >
-                      1 Star
-                    </button>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <button
-                      className={`${
-                        active ? "text-gray-200" : "text-black-900"
-                      } group  w-full items-center rounded-md px-2 py-2 text-sm text-black text-center`}
-                    >
-                      2 Star
-                    </button>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <button
-                      className={`${
-                        active ? "text-gray-200" : "text-black-900"
-                      } group  w-full items-center rounded-md px-2 py-2 text-sm text-black text-center`}
-                    >
-                      3 Star
-                    </button>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <button
-                      className={`${
-                        active ? "text-gray-200" : "text-black-900"
-                      } group w-full items-center rounded-md px-2 py-2 text-sm text-black text-center`}
-                    >
-                      4 Star
-                    </button>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <button
-                      className={`${
-                        active ? "text-gray-200" : "text-black-900"
-                      } group w-full items-center rounded-md px-2 py-2 text-sm text-black text-center`}
-                    >
-                      5 Star
-                    </button>
-                  )}
-                </Menu.Item>
-              </div>
+              {options.map((data) => {
+                return (
+                  <div className="px-1 py-1 text-center">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active ? "text-gray-200" : "text-black-900"
+                          } group  w-full items-center rounded-md px-2 py-2 text-sm text-black`}
+                          onClick={() => handleFilterChange(data)}
+                        >
+                          {data === 0 ? "All" : data + " Star"}
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+                );
+              })}
             </Menu.Items>
           </Transition>
         </Menu>

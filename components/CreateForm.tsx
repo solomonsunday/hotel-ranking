@@ -25,6 +25,8 @@ const CreateForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
 
   const onSubmit = (data: any) => {
     data.id = uuid();
+    data.chainId = +data.chainId;
+    console.log(data, "data to save");
     createHotel(data);
     reset();
     onCloseModal();

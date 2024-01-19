@@ -114,11 +114,6 @@ export const HotelProvider: React.FC<HotelContextProps> = ({ children }) => {
     }
   };
 
-  //   const deleteHotel1 = (hotelId: string) => {
-  //     setHotelData((prevHotels) =>
-  //       prevHotels.filter((hotel) => hotel.id !== hotelId)
-  //     );
-  //   };
   const deleteHotel = (id: string) => {
     const storage = localStorage.getItem(HOTEL_KEY);
     const data =
@@ -153,9 +148,9 @@ export const HotelProvider: React.FC<HotelContextProps> = ({ children }) => {
       )
     );
   };
-  const deleteHotelChain = (chainId: string) => {
+  const deleteHotelChain = (id: string) => {
     setHotelChains((prevChains) =>
-      prevChains.filter((chain) => chain.id !== chainId)
+      prevChains.filter((chain) => chain.id !== id)
     );
   };
 

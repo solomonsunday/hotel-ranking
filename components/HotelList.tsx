@@ -22,7 +22,6 @@ const HotelList = ({
 
   const [filteredHotelData, setFilteredhotelData] =
     useState<IHotel[]>(hotelData);
-    const [filteredData, setFilteredData] = useState<IHotel[]>(hotelData);
 
   const options: number[] = [1, 2, 3, 4, 5];
 
@@ -67,12 +66,16 @@ const HotelList = ({
     }
   };
 
-  const handleFilterChange = (selectedValue) => {
-    if (selectedValue === '') {
-      setFilteredData(data); // Reset to original data if no filter selected
+  const handleFilterChange = (selectedValue: number) => {
+    setFilteredhotelData(hotelData);
+    if (!selectedValue || selectedValue === 0) {
+      setFilteredhotelData(hotelData);
     } else {
-      const filteredResults = data.filter((item) => /* Apply your filtering logic here */);
-      setFilteredData(filteredResults);
+      const filteredResults = filteredHotelData.filter((item) => {
+        return item.chainId === selectedValue;
+      });
+      console.log(filteredResults, "filteredResults");
+      setFilteredhotelData(filteredResults);
     }
   };
 
@@ -83,7 +86,11 @@ const HotelList = ({
           <div>
             <SearchBar onSearch={handleSearch} />
           </div>
-         <FilterDropdown options={options} onFilterChange={() => handleFilterChange()}/>
+          <FilterDropdown
+            onFilterChange={(selectedValue) =>
+              handleFilterChange(selectedValue)
+            }
+          />
         </div>
         <div>
           <div
