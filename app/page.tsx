@@ -25,8 +25,6 @@ export default function Home() {
           onEdit={() => setOpenEdit(true)}
           onView={() => setOpenView(true)}
         />
-        {/* <HotelForm /> */}
-
         <CreateModal isOpen={openCreate} toggleModal={setOpenCreate} />
         <DeleteModal isOpen={openDelete} toggleModal={setOpenDelete} />
         <EditModal isOpen={openEdit} toggleModal={setOpenEdit} />

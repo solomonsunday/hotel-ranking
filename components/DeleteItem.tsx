@@ -7,7 +7,6 @@ const DeleteItem = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const handleDeleteHotel = () => {
     if (selectedHotel) {
       deleteHotel(selectedHotel.id);
-      console.log("hotel deleted");
       onCloseModal();
     }
   };

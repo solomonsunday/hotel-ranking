@@ -9,7 +9,6 @@ const FilterDropdown = ({
 }) => {
   const options = [0, 1, 2, 3, 4, 5];
   const handleFilterChange = (chainId: number) => {
-    console.log(chainId, "chainID");
     onFilterChange(chainId);
   };
 
@@ -47,7 +46,7 @@ const FilterDropdown = ({
             <Menu.Items className="absolute right-0 z-50 mt-0 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
               {options.map((data) => {
                 return (
-                  <div className="px-1 py-1 text-center">
+                  <div key={data} className="px-1 py-1 text-center">
                     <Menu.Item>
                       {({ active }) => (
                         <button

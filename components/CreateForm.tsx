@@ -4,28 +4,45 @@ import { useHotelContext } from "../context/HotelContext";
 import { uuid } from "uuidv4";
 import { useForm } from "react-hook-form";
 import { IHotel } from "@/utils/interface";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from "react-places-autocomplete";
 
 const CreateForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const { createHotel } = useHotelContext();
   const {
     handleSubmit,
     register,
+    setValue,
     reset,
     formState: { errors, isDirty, isValid },
   } = useForm<any>({ mode: "onChange" });
 
-  const [newHotel, setNewHotel] = useState<IHotel>({
-    id: "",
-    name: "",
-    city: "",
-    country: "",
-    address: "",
-    chainId: 1,
+  const [address, setAddress] = useState("");
+  const [coordinates, setCoordinates] = useState<google.maps.LatLngLiteral>({
+    lat: 0,
+    lng: 0,
   });
+
+  console.log(coordinates, address, "coordinates");
+
+  const handleSelectAddress = async (address: string) => {
+    const results = await geocodeByAddress(address);
+    const ll: google.maps.LatLngLiteral = await getLatLng(results[0]);
+    setAddress(address);
+    setValue("address", address, { shouldValidate: true });
+    setCoordinates(ll);
+  };
+
+  const handleChange = (address: string) => {
+    setAddress(address);
+  };
 
   const onSubmit = (data: any) => {
     data.id = uuid();
     data.chainId = +data.chainId;
+    data.address = address;
     console.log(data, "data to save");
     createHotel(data);
     reset();
@@ -67,15 +84,52 @@ const CreateForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
             Address
           </label>
           <div>
-            <input
-              {...register("address", {
-                required: "Address is required",
-                minLength: 2,
-              })}
-              type="text"
-              name="address"
-              className="w-full p-2 mt-1 border border-gray-300 rounded"
-            />
+            <PlacesAutocomplete
+              value={address}
+              onChange={handleChange}
+              onSelect={(address) => handleSelectAddress(address)}
+            >
+              {({
+                getInputProps,
+                suggestions,
+                getSuggestionItemProps,
+                loading,
+              }) => (
+                <div>
+                  <input
+                    {...getInputProps({
+                      placeholder: "Search Places ...",
+                      className:
+                        "w-full p-2 mt-1 border border-gray-300 rounded location-search-input",
+                    })}
+                  />
+                  {address && (
+                    <div className="px-2 py-2 bg-white autocomplete-dropdown-container ">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map((suggestion) => {
+                        const className = suggestion.active
+                          ? "suggestion-item--active"
+                          : "suggestion-item";
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                          : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style,
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </PlacesAutocomplete>
           </div>
           {errors.name?.type === "required" && (
             <p className="mt-1 text-xs italic text-red-600">

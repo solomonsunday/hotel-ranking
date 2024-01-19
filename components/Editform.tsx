@@ -1,19 +1,42 @@
 import { useHotelContext } from "@/context/HotelContext";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from "react-places-autocomplete";
 
 const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors },
   } = useForm<any>({ mode: "onChange" });
 
   const { selectedHotel, updateHotel, getHotels } = useHotelContext();
 
+  const [address, setAddress] = useState("");
+  const [coordinates, setCoordinates] = useState<google.maps.LatLngLiteral>({
+    lat: 0,
+    lng: 0,
+  });
+
+  const handleSelectAddress = async (address: string) => {
+    const results = await geocodeByAddress(address);
+    const ll: google.maps.LatLngLiteral = await getLatLng(results[0]);
+    setAddress(address);
+    setValue("address", address, { shouldValidate: true });
+    setCoordinates(ll);
+  };
+
+  const handleChange = (address: string) => {
+    setAddress(address);
+  };
   const onSubmit = (data: any) => {
     data.id = selectedHotel?.id;
     data.chainId = +data.chainId;
+    data.address = address;
     updateHotel(data);
     getHotels();
     onCloseModal();
@@ -22,6 +45,9 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600">
+            Hotel Name
+          </label>
           <div className="flex items-center ">
             <input
               {...register("name", {
@@ -32,7 +58,6 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
               type="text"
               autoComplete="false"
               className="block w-full p-3 mt-1 placeholder-gray-400 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-blue-300 disabled:bg-gray-200 disabled:border-slate-300 disabled:shadow-none focus:invalid:border-red-500 focus:invalid:bg-red-50 focus:invalid:placeholder-red-700 "
-              placeholder="Name..."
             />
           </div>
 
@@ -48,7 +73,10 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
           )}
         </div>
         <div className="mb-4">
-          <div className="flex items-center ">
+          <label className="block text-sm font-medium text-gray-600">
+            Address
+          </label>
+          {/* <div className="flex items-center ">
             <input
               {...register("address", {
                 required: "Address is required",
@@ -57,8 +85,55 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
               type="address"
               autoComplete="false"
               className="block w-full p-3 mt-1 placeholder-gray-400 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-blue-300 disabled:bg-gray-200 disabled:border-slate-300 disabled:shadow-none focus:invalid:border-red-500 focus:invalid:bg-red-50 focus:invalid:placeholder-red-700 "
-              placeholder="Address..."
             />
+          </div> */}
+          <div>
+            <PlacesAutocomplete
+              value={address === "" ? selectedHotel?.address : address}
+              onChange={handleChange}
+              onSelect={(address) => handleSelectAddress(address)}
+            >
+              {({
+                getInputProps,
+                suggestions,
+                getSuggestionItemProps,
+                loading,
+              }) => (
+                <div>
+                  <input
+                    {...getInputProps({
+                      placeholder: "Search Places ...",
+                      className:
+                        "w-full p-2 mt-1 border border-gray-300 rounded location-search-input",
+                    })}
+                  />
+                  {address && (
+                    <div className="px-2 py-2 bg-white autocomplete-dropdown-container ">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map((suggestion) => {
+                        const className = suggestion.active
+                          ? "suggestion-item--active"
+                          : "suggestion-item";
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                          : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style,
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </PlacesAutocomplete>
           </div>
 
           {errors.email?.type === "required" && (
@@ -68,6 +143,9 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
           )}
         </div>
         <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600">
+            City
+          </label>
           <div className="flex items-center ">
             <input
               {...register("city", {
@@ -88,6 +166,9 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
           )}
         </div>
         <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600">
+            Country
+          </label>
           <div className="flex items-center ">
             <input
               {...register("country", {
@@ -109,6 +190,9 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
           )}
         </div>
         <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600">
+            ChainID
+          </label>
           <div className="flex items-center ">
             <input
               {...register("chainId", {

@@ -73,7 +73,6 @@ export const HotelProvider: React.FC<HotelContextProps> = ({ children }) => {
   const getHotels = () => {
     setLoading(true);
     const data = localStorage.getItem(HOTEL_KEY);
-    console.log(data, "data");
     setHotelData(data ? JSON.parse(data) : []);
     setLoading(false);
   };
@@ -153,8 +152,6 @@ export const HotelProvider: React.FC<HotelContextProps> = ({ children }) => {
       prevChains.filter((chain) => chain.id !== id)
     );
   };
-
-  // Implement editHotel, deleteHotel, addHotelChain, editHotelChain, deleteHotelChain as needed
 
   const contextValue: HotelContextType = {
     hotelData,
