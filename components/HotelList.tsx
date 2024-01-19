@@ -71,7 +71,7 @@ const HotelList = ({
     if (!selectedValue || selectedValue === 0) {
       setFilteredhotelData(hotelData);
     } else {
-      const filteredResults = filteredHotelData.filter((item) => {
+      const filteredResults = hotelData.filter((item) => {
         return item.chainId === selectedValue;
       });
       console.log(filteredResults, "filteredResults");
@@ -80,31 +80,34 @@ const HotelList = ({
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-8">
-      <div className="flex justify-between pb-3 border-b border-slate-400">
-        <div className="flex items-center justify-center space-x-3 cursor-pointer">
-          <div>
-            <SearchBar onSearch={handleSearch} />
-          </div>
-          <FilterDropdown
-            onFilterChange={(selectedValue) =>
-              handleFilterChange(selectedValue)
-            }
-          />
+    <div className="mx-auto mt-8 md:max-w-2xl xs:px-2 sm:px-4">
+      <div className="flex items-center justify-between gap-6 py-3 pr-3 mb-3 bg-white border rounded-lg">
+        {/* <div className="flex items-center justify-center cursor-pointer"> */}
+        <div className="flex w-full">
+          <SearchBar onSearch={handleSearch} />
+          {hotelData && (
+            <FilterDropdown
+              onFilterChange={(selectedValue) =>
+                handleFilterChange(selectedValue)
+              }
+            />
+          )}
         </div>
-        <div>
-          <div
-            className="p-2 text-sm text-white rounded-lg cursor-pointer bg-slate-600 hover:bg-slate-400"
-            onClick={() => setOpenCreate(true)}
-          >
-            {" "}
-            Create
-          </div>
+        <div
+          className="p-2 text-sm text-white rounded-lg cursor-pointer bg-slate-600 hover:bg-slate-400"
+          onClick={() => setOpenCreate(true)}
+        >
+          {" "}
+          Create
         </div>
       </div>
+      {/* </div> */}
       <ul className="divide-y divide-gray-300">
         {filteredHotelData.map((hotel) => (
-          <li key={hotel.id} className="py-2">
+          <li
+            key={hotel.id}
+            className="px-3 py-2 mb-2 bg-white border rounded-lg"
+          >
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold">{hotel.name}</h3>

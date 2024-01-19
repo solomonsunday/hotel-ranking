@@ -7,11 +7,9 @@ const FilterDropdown = ({
   //   options: number[];
   onFilterChange: (value: number) => void;
 }) => {
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const options = [0, 1, 2, 3, 4, 5];
   const handleFilterChange = (chainId: number) => {
     console.log(chainId, "chainID");
-    setSelectedOption(chainId);
     onFilterChange(chainId);
   };
 

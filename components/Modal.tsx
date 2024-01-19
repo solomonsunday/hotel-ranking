@@ -46,7 +46,7 @@ export default function ModalLayout({
     return (
       <>
         {parameters.isOpened && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center max-w-md ml-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center max-w-md ml-auto animate__animated animate__slideInRight">
             <div className="relative w-full h-full overflow-auto bg-white shadow-lg animate__animated animate__slideInRight ">
               {renderHeader()}
               <div className="px-6 py-3">{children}</div>

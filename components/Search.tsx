@@ -12,11 +12,11 @@ const SearchBar = ({ onSearch }: IKeywords) => {
 
   return (
     <>
-      <div className="w-full ml-2 border rounded-md border-slate-400 md:w-96">
+      <div className="w-full ml-2 border rounded-md border-slate-400">
         <input
           type="text"
           value={searchQuery}
-          className="px-2 py-2 text-xs bg-transparent focus:outline-none md:w-96 placeholder:px-1 placeholder:text-xs"
+          className="px-2 py-2 text-xs bg-transparent focus:outline-none placeholder:px-1 placeholder:text-xs"
           placeholder={"Find a hotel"}
           key="search-bar"
           onChange={handleInputChange}
