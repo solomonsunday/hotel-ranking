@@ -18,7 +18,6 @@ const View = () => {
     const results = await geocodeByAddress(selectedHotel?.address!);
     const ll: google.maps.LatLngLiteral = await getLatLng(results[0]);
     setCenter(ll);
-    console.log(ll, "lll");
   };
 
   return (

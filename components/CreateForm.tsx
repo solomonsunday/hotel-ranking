@@ -25,8 +25,6 @@ const CreateForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
     lng: 0,
   });
 
-  console.log(coordinates, address, "coordinates");
-
   const handleSelectAddress = async (address: string) => {
     const results = await geocodeByAddress(address);
     const ll: google.maps.LatLngLiteral = await getLatLng(results[0]);
@@ -43,7 +41,6 @@ const CreateForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
     data.id = uuid();
     data.chainId = +data.chainId;
     data.address = address;
-    console.log(data, "data to save");
     createHotel(data);
     reset();
     onCloseModal();

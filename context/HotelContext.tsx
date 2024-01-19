@@ -81,9 +81,7 @@ export const HotelProvider: React.FC<HotelContextProps> = ({ children }) => {
     const storage = localStorage.getItem(HOTEL_KEY);
     const data =
       storage && storage.length ? (JSON.parse(storage) as IHotel[]) : [];
-    console.log("stage data", data);
     const foundData = data.find((d) => d.id === id) ?? null;
-    console.log("found data", foundData);
     return foundData;
   };
 

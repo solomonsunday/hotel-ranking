@@ -74,7 +74,6 @@ const HotelList = ({
       const filteredResults = hotelData.filter((item) => {
         return item.chainId === selectedValue;
       });
-      console.log(filteredResults, "filteredResults");
       setFilteredhotelData(filteredResults);
     }
   };
