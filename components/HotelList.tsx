@@ -7,6 +7,7 @@ import { IHotel } from "@/utils/interface";
 import SearchBar from "./Search";
 import FilterDropdown from "./FilteredDropDown";
 import Link from "next/link";
+import { useHotelChainContext } from "@/context/HotelChainContext";
 
 const HotelList = ({
   onEdit,
@@ -19,15 +20,15 @@ const HotelList = ({
 }) => {
   const { hotelData, setSelectedHotel, getHotel, getHotels } =
     useHotelContext();
+  const { getHotelChains, hotelChains } = useHotelChainContext();
   const [openCreate, setOpenCreate] = useState<boolean>(false);
 
   const [filteredHotelData, setFilteredhotelData] =
     useState<IHotel[]>(hotelData);
 
-  const options: number[] = [1, 2, 3, 4, 5];
-
   useEffect(() => {
     getHotels();
+    getHotelChains;
   }, []);
   useEffect(() => {
     if (hotelData) {
@@ -90,6 +91,7 @@ const HotelList = ({
               onFilterChange={(selectedValue) =>
                 handleFilterChange(selectedValue)
               }
+              hotelChains={hotelChains}
             />
           )}
         </div>

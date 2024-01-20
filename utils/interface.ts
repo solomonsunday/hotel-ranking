@@ -9,7 +9,7 @@ export interface IHotel {
 
 export interface IHotelChain {
   id: string;
-  name: string;
+  name: number;
 }
 
 export interface ErrorResponse {

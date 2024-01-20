@@ -1,11 +1,14 @@
 "use client";
 import React, { useEffect } from "react";
 import { useHotelChainContext } from "@/context/HotelChainContext";
+import { useRouter } from "next/navigation";
 
 const HotelChainList: React.FC = () => {
   const { hotelChains, deleteHotelChain, getHotelChains } =
     useHotelChainContext();
   console.log(hotelChains, "hotelChain");
+
+  const route = useRouter();
 
   useEffect(() => {
     getHotelChains();
@@ -13,7 +16,15 @@ const HotelChainList: React.FC = () => {
 
   return (
     <div className="max-w-2xl mx-auto mt-8">
-      <h2 className="mb-4 text-2xl font-bold">Hotel Chains</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="mb-4 text-2xl font-bold">Hotel Chains</h2>
+        <div
+          className="p-2 text-xs text-white rounded-lg cursor-pointer bg-slate-600 hover:bg-slate-400"
+          onClick={() => route.back()}
+        >
+          Back
+        </div>
+      </div>
       <ul className="divide-y divide-gray-300">
         {hotelChains.map((chain) => (
           <li key={chain.id} className="py-2">

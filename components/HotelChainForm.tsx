@@ -15,15 +15,10 @@ const HotelChainForm: React.FC = () => {
   } = useForm<any>({ mode: "onChange" });
 
   const { addHotelChain } = useHotelChainContext();
-  const [newChain, setNewChain] = useState<IHotelChain>({ id: "", name: "" });
-
-  const handleAddChain = () => {
-    addHotelChain(newChain);
-    setNewChain({ id: "", name: "" });
-  };
 
   const onSubmit = (data: any) => {
     data.id = uuid();
+    data.name = +data.name;
     addHotelChain(data);
     reset();
     // onCloseModal();
