@@ -105,7 +105,6 @@ export const HotelProvider: React.FC<HotelContextProps> = ({ children }) => {
       HOTEL_KEY,
       JSON.stringify(data.filter((hotel) => hotel.id !== id))
     );
-
     getHotels();
   };
 

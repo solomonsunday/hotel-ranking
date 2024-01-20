@@ -9,6 +9,7 @@ import {
 } from "react";
 import { ErrorResponse, IHotelChain } from "@/utils/interface";
 import { HOTEL_CHAIN_KEY } from "@/utils/constants";
+import { uuid } from "uuidv4";
 
 interface HotelChainContextProps {
   children: ReactNode;
@@ -88,7 +89,9 @@ export const HotelChainProvider: React.FC<HotelChainContextProps> = ({
   const getHotelChains = () => {
     setLoading(true);
     const chainData = localStorage.getItem(HOTEL_CHAIN_KEY);
-    setHotelChains(chainData ? JSON.parse(chainData) : []);
+    const data: any[] = chainData ? JSON.parse(chainData) : [];
+    data.unshift({ id: "0", name: 0 });
+    setHotelChains(data);
     setLoading(false);
   };
 

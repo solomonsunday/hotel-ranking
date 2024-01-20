@@ -1,16 +1,17 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { IHotelChain } from "@/utils/interface";
+import { useHotelChainContext } from "@/context/HotelChainContext";
 
 const FilterDropdown = ({
   onFilterChange,
-  hotelChains,
 }: {
-  //   options: number[];
   onFilterChange: (value: number) => void;
-  hotelChains: IHotelChain[];
 }) => {
-  const options = [0, 1, 2, 3, 4, 5];
+  const { getHotelChains, hotelChains } = useHotelChainContext();
+  useEffect(() => {
+    getHotelChains();
+  }, []);
+
   const handleFilterChange = (chainId: number) => {
     onFilterChange(chainId);
   };
@@ -58,7 +59,7 @@ const FilterDropdown = ({
                           } group  w-full items-center rounded-md px-2 py-2 text-sm text-black`}
                           onClick={() => handleFilterChange(data.name)}
                         >
-                          {data.name === 0 ? "All" : data + " Star"}
+                          {data.name === 0 ? "All" : data.name + " Star"}
                         </button>
                       )}
                     </Menu.Item>

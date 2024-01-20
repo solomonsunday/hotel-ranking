@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 const HotelChainList: React.FC = () => {
   const { hotelChains, deleteHotelChain, getHotelChains } =
     useHotelChainContext();
-  console.log(hotelChains, "hotelChain");
 
   const route = useRouter();
 
@@ -30,12 +29,14 @@ const HotelChainList: React.FC = () => {
           <li key={chain.id} className="py-2">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">{chain.name}</h3>
-              <button
-                className="px-2 py-1 text-white bg-red-500 rounded"
-                onClick={() => deleteHotelChain(chain.id)}
-              >
-                Delete
-              </button>
+              {chain.id !== "0" && (
+                <button
+                  className="px-2 py-1 text-white bg-red-500 rounded"
+                  onClick={() => deleteHotelChain(chain.id)}
+                >
+                  Delete
+                </button>
+              )}
             </div>
           </li>
         ))}
