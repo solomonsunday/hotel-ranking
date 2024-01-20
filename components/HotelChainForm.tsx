@@ -30,14 +30,11 @@ const HotelChainForm: React.FC = () => {
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label className="block text-sm font-medium text-gray-600">
-            Chain Name{" "}
-            <span className="text-sm text-yellow-700">(from 0 - 5)</span>
+            Chain <span className="text-sm text-yellow-700">(from 0 - 5)</span>
           </label>
           <input
             {...register("name", {
-              required: "Chain Name is required",
-              minLength: 1,
-              maxLength: 5,
+              required: "Chain is required",
               min: 1,
               max: 5,
             })}
@@ -51,12 +48,12 @@ const HotelChainForm: React.FC = () => {
             {errors.name?.message?.toString()}
           </p>
         )}
-        {errors.name?.type === "maxLength" && (
+        {errors.name?.type === "max" && (
           <p className="mt-1 text-xs italic text-red-600">
-            Minimum input length of 5
+            Maximum input length of 5
           </p>
         )}
-        {errors.name?.type === "minLength" && (
+        {errors.name?.type === "min" && (
           <p className="mt-1 text-xs italic text-red-600">
             Minimum input length of 1
           </p>
