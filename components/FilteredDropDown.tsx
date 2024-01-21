@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useHotelChainContext } from "@/context/HotelChainContext";
 
@@ -21,7 +21,7 @@ const FilterDropdown = ({
       <div className="flex flex-col items-center justify-center text-sm font-medium">
         <Menu as="div" className="relative inline-block text-center">
           <div className="text-center">
-            <Menu.Button className="inline-flex justify-center w-full px-3 py-2 text-sm font-medium text-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+            <Menu.Button className="inline-flex justify-center w-full px-3 py-2 text-sm font-medium text-black rounded-md bg-opacity-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -48,22 +48,25 @@ const FilterDropdown = ({
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items className="absolute right-0 z-50 mt-0 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Item>
+                <button
+                  className={`group hover:bg-slate-100 w-full items-center rounded-md px-2 py-3 text-black text-sm`}
+                  onClick={() => handleFilterChange(0)}
+                >
+                  All
+                </button>
+              </Menu.Item>
+
               {hotelChains.map((data) => {
                 return (
-                  <div key={data.id} className="px-1 py-1 text-center">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          className={`${
-                            active ? "text-gray-200" : "text-black-900"
-                          } group  w-full items-center rounded-md px-2 py-2 text-sm text-black`}
-                          onClick={() => handleFilterChange(data.name)}
-                        >
-                          {data.name === 0 ? "All" : data.name + " Star"}
-                        </button>
-                      )}
-                    </Menu.Item>
-                  </div>
+                  <Menu.Item>
+                    <button
+                      className={`group hover:bg-slate-100  w-full items-center rounded-md px-2 py-3 text-sm text-black`}
+                      onClick={() => handleFilterChange(data.name)}
+                    >
+                      {data.name + " Star"}
+                    </button>
+                  </Menu.Item>
                 );
               })}
             </Menu.Items>

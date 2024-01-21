@@ -19,11 +19,36 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const { selectedHotel, updateHotel, getHotels } = useHotelContext();
 
   const [address, setAddress] = useState("");
-  const { hotelChains, getHotelChains } = useHotelChainContext();
+  const { hotelChains, getHotelChains, selectedHotelChain } =
+    useHotelChainContext();
   const [coordinates, setCoordinates] = useState<google.maps.LatLngLiteral>({
     lat: 0,
     lng: 0,
   });
+
+  useEffect(() => {
+    if (!selectedHotel) return;
+    setValue("name", selectedHotel?.name, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    setValue("city", selectedHotel.city, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    setValue("country", selectedHotel.country, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    setValue("chainId", selectedHotel.chainId, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    // setValue("address", selectedHotel.address, {
+    //   shouldDirty: true,
+    //   shouldValidate: true,
+    // });
+  }, [selectedHotel]);
 
   useEffect(() => {
     getHotelChains();
@@ -61,7 +86,6 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
                 required: "Name is required",
                 minLength: 2,
               })}
-              defaultValue={selectedHotel?.name}
               type="text"
               autoComplete="false"
               className="block w-full p-3 mt-1 placeholder-gray-400 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-blue-300 disabled:bg-gray-200 disabled:border-slate-300 disabled:shadow-none focus:invalid:border-red-500 focus:invalid:bg-red-50 focus:invalid:placeholder-red-700 "
@@ -83,17 +107,6 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
           <label className="block text-sm font-medium text-gray-600">
             Address
           </label>
-          {/* <div className="flex items-center ">
-            <input
-              {...register("address", {
-                required: "Address is required",
-              })}
-              defaultValue={selectedHotel?.address}
-              type="address"
-              autoComplete="false"
-              className="block w-full p-3 mt-1 placeholder-gray-400 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-blue-300 disabled:bg-gray-200 disabled:border-slate-300 disabled:shadow-none focus:invalid:border-red-500 focus:invalid:bg-red-50 focus:invalid:placeholder-red-700 "
-            />
-          </div> */}
           <div>
             <PlacesAutocomplete
               value={address === "" ? selectedHotel?.address : address}
@@ -158,7 +171,6 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
               {...register("city", {
                 required: "City is required",
               })}
-              defaultValue={selectedHotel?.city}
               type="text"
               autoComplete="false"
               className="block w-full p-3 mt-1 placeholder-gray-400 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-blue-300 disabled:bg-gray-200 disabled:border-slate-300 disabled:shadow-none focus:invalid:border-red-500 focus:invalid:bg-red-50 focus:invalid:placeholder-red-700 "
@@ -182,7 +194,6 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
                 required: "Country is required",
                 minLength: 5,
               })}
-              defaultValue={selectedHotel?.country}
               type="text"
               autoComplete="false"
               className="block w-full p-3 mt-1 placeholder-gray-400 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-blue-300 disabled:bg-gray-200 disabled:border-slate-300 disabled:shadow-none focus:invalid:border-red-500 focus:invalid:bg-red-50 focus:invalid:placeholder-red-700 "
@@ -218,19 +229,6 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
                   );
                 })}
             </select>
-            {/* <input
-              {...register("chainId", {
-                required: "ChainID is required",
-                minLength: 1,
-                maxLength: 5,
-                max: 5,
-              })}
-              defaultValue={selectedHotel?.chainId}
-              type="number"
-              autoComplete="false"
-              className="block w-full p-3 mt-1 placeholder-gray-400 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:border-blue-300 disabled:bg-gray-200 disabled:border-slate-300 disabled:shadow-none focus:invalid:border-red-500 focus:invalid:bg-red-50 focus:invalid:placeholder-red-700 "
-              placeholder="ChainID..."
-            /> */}
           </div>
 
           {errors.chainId?.type === "required" && (

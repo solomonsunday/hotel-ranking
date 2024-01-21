@@ -90,7 +90,7 @@ export const HotelChainProvider: React.FC<HotelChainContextProps> = ({
     setLoading(true);
     const chainData = localStorage.getItem(HOTEL_CHAIN_KEY);
     const data: any[] = chainData ? JSON.parse(chainData) : [];
-    data.unshift({ id: "0", name: 0 });
+    // data.unshift({ id: "0", name: 0 });
     setHotelChains(data);
     setLoading(false);
   };
