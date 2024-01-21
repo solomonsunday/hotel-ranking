@@ -1,11 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { IHotelChain } from "@/utils/interface";
 import { useHotelChainContext } from "@/context/HotelChainContext";
 import { useForm } from "react-hook-form";
 import { uuid } from "uuidv4";
 
-const HotelChainForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
+const EditHotelChain = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const {
     handleSubmit,
     register,
@@ -14,7 +13,7 @@ const HotelChainForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
     formState: { errors, isDirty, isValid },
   } = useForm<any>({ mode: "onChange" });
 
-  const { addHotelChain } = useHotelChainContext();
+  const { addHotelChain, selectedHotelChain } = useHotelChainContext();
 
   const onSubmit = (data: any) => {
     data.id = uuid();
@@ -38,6 +37,7 @@ const HotelChainForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
               max: 5,
             })}
             type="number"
+            defaultValue={selectedHotelChain?.name}
             name="name"
             className="w-full p-2 mt-1 border border-gray-300 rounded"
           />
@@ -61,11 +61,11 @@ const HotelChainForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
           type="submit"
           className="w-full px-4 py-2 text-white rounded bg-slate-600"
         >
-          Add Hotel Chain
+          Update Hotel Chain
         </button>
       </form>
     </div>
   );
 };
 
-export default HotelChainForm;
+export default EditHotelChain;

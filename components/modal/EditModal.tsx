@@ -1,26 +1,35 @@
 import React from "react";
 import ModalLayout from "../Modal";
 import EditForm from "../Editform";
+import EditHotelChain from "../EditHotelChain";
 
 const EditModal = ({
   isOpen,
   toggleModal,
+  type,
 }: {
   isOpen: boolean;
   toggleModal: (value: boolean) => void;
+  type: string;
 }) => {
   return (
     <ModalLayout
       parameters={{
         isOpened: isOpen,
-        title: "Edit Hotel",
-        // size: "medium",
+        title: `${type === "hotel" ? "Edit Hotel " : "Edit Hotel Chain"}`,
       }}
       modalResult={() => {
         toggleModal(false);
       }}
     >
-      <EditForm onCloseModal={() => toggleModal(false)} />
+      <>
+        {type === "hotel" && (
+          <EditForm onCloseModal={() => toggleModal(false)} />
+        )}
+        {type === "hotelChain" && (
+          <EditHotelChain onCloseModal={() => toggleModal(false)} />
+        )}
+      </>
     </ModalLayout>
   );
 };

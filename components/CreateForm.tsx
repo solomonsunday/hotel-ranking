@@ -102,6 +102,7 @@ const CreateForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
                   <input
                     {...getInputProps({
                       placeholder: "Search Places ...",
+                      name: "address",
                       className:
                         "w-full p-2 mt-1 border border-gray-300 rounded location-search-input",
                     })}
@@ -224,7 +225,7 @@ const CreateForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
         </div>
         <button
           type="submit"
-          className="w-full px-4 py-2 text-white rounded-lg bg-slate-600 hover:bg-slate-400"
+          className="w-full px-4 py-2 text-white rounded-lg bg-slate-600"
         >
           Create Hotel
         </button>

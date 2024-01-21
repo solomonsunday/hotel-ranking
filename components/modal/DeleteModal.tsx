@@ -1,13 +1,16 @@
 import React from "react";
 import DeleteItem from "../DeleteItem";
 import ModalLayout from "../Modal";
+import DeleteHotelChianItem from "../DeleteHotelChainItem";
 
 const DeleteModal = ({
   isOpen,
   toggleModal,
+  type,
 }: {
   isOpen: boolean;
   toggleModal: (value: boolean) => void;
+  type: string;
 }) => {
   return (
     <ModalLayout
@@ -20,7 +23,14 @@ const DeleteModal = ({
         toggleModal(false);
       }}
     >
-      <DeleteItem onCloseModal={() => toggleModal(false)} />
+      <>
+        {type === "hotel" && (
+          <DeleteItem onCloseModal={() => toggleModal(false)} />
+        )}
+        {type === "hotelChain" && (
+          <DeleteHotelChianItem onCloseModal={() => toggleModal(false)} />
+        )}
+      </>
     </ModalLayout>
   );
 };

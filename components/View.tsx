@@ -10,6 +10,8 @@ const View = () => {
     lat: 0,
     lng: 0,
   });
+  console.log(selectedHotel, "selectedHotel");
+
   useEffect(() => {
     getLatAndLog();
   }, [selectedHotel]);

@@ -83,7 +83,6 @@ const HotelList = ({
   return (
     <div className="mx-auto mt-8 md:max-w-2xl xs:px-2 sm:px-4">
       <div className="flex items-center justify-between gap-6 py-3 pr-3 mb-3 bg-white border rounded-lg">
-        {/* <div className="flex items-center justify-center cursor-pointer"> */}
         <div className="flex w-full">
           <SearchBar onSearch={handleSearch} />
           {hotelData && (
@@ -95,7 +94,7 @@ const HotelList = ({
           )}
         </div>
         <div
-          className="p-2 text-sm text-white rounded-lg cursor-pointer bg-slate-600 hover:bg-slate-400"
+          className="p-2 text-sm text-white rounded-lg cursor-pointer bg-slate-600"
           onClick={() => setOpenCreate(true)}
         >
           Create
@@ -123,7 +122,11 @@ const HotelList = ({
           </div>
         )}
       </ul>
-      <CreateModal isOpen={openCreate} toggleModal={setOpenCreate} />
+      <CreateModal
+        isOpen={openCreate}
+        toggleModal={setOpenCreate}
+        type="hotel"
+      />
     </div>
   );
 };

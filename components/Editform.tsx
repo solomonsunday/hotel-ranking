@@ -6,6 +6,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+import EditModal from "./modal/EditModal";
 
 const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const {
@@ -245,7 +246,7 @@ const EditForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
         </div>
         <div>
           <button
-            className="w-full py-3 text-sm text-center text-white rounded-lg cursor-pointer bg-slate-600 hover:bg-slate-400"
+            className="w-full py-3 text-sm text-center text-white rounded-lg cursor-pointer bg-slate-600"
             type="submit"
           >
             Update

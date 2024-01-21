@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Head from "next/head";
 import Script from "next/script";
+import { HotelChainProvider } from "@/context/HotelChainContext";
+import { HotelProvider } from "@/context/HotelContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +30,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <Header />
         <div className="min-h-screen mt-20">
-          {children}
+          <HotelChainProvider>
+            <HotelProvider>{children}</HotelProvider>
+          </HotelChainProvider>
           <Script
             src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&libraries=places&callback=initMap`}
           />
