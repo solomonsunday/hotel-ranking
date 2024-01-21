@@ -29,7 +29,7 @@ const HotelChainForm = ({ onCloseModal }: { onCloseModal: () => void }) => {
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label className="block text-sm font-medium text-gray-600">
-            Chain <span className="text-sm text-yellow-700">(from 0 - 5)</span>
+            Chain <span className="text-sm text-yellow-700">(from 1 - 5)</span>
           </label>
           <input
             {...register("name", {

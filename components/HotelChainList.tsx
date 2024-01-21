@@ -46,6 +46,7 @@ const HotelChainList = ({
     <div className="mx-auto mt-8 md:max-w-2xl xs:px-2 sm:px-4">
       <div className="flex items-center justify-between gap-6 px-3 py-3 mb-3 bg-white border rounded-lg">
         <h2 className="mb-4 text-2xl font-bold">Hotel Chains</h2>
+
         <div className="flex items-baseline justify-between space-x-3">
           <div
             className="p-2 text-sm text-white rounded-lg cursor-pointer bg-slate-600"
